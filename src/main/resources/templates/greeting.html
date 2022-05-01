@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Приветствуем #BANKNAME </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href= "../static/templates/greetings/greetings.css" rel="stylesheet">
+    <script src="static/vue.js"></script>
+
+</head>
+
+
+<style>  
+    .wrong{
+        font-size: 23px;
+        line-height: 1.1;
+        letter-spacing: 0.091em;
+        font-weight: 600;
+        font-style: normal;
+        padding-top: 10px;
+    }
+</style>
+
+    <body>
+    <div class="container" id="container">
+        <!-- sign in page -->
+        <div class="form-container sign-in-container">
+        <form method="post" class="form" id="login"  th:action = "@{signIn}" th:object = "${userEntity}">
+            <h1 class="form__title">Вход</h1>
+            <div class="form__input-group">
+            <label for="username">Имя Пользователя: </label>
+            <input type="text" class="form__input" name="username" id="username" maxlength="20" required> 
+            </div>
+            <div class="form__input-group">
+            <label for="pass">Пароль: </label>
+            <input type="password" class="form__input" name="password" id="password" maxlength="20" required> 
+            </div>
+            <div class="form__input-group">
+            <button type="submit" class="form__button">Поехали</button>
+            <div class ="wrong" th:if = "${wrong} == '1010'">
+                Данные не верны :( 
+            </div>
+            </div>
+        </form>
+        </div>
+
+        <!--  create account page -->
+        <div class="form-container sign-up-container">
+        <form method="post" class="form" id="register" th:action = "@{signUp}" th:object = "${userEntity}">
+            <h1 class="form__title">Регистрация</h1>
+            <div class="form__input-group">
+            <label for="username"> Имя Пользователя: </label>
+            <input  type="text" class="form__input" name="username" id="username" maxlength="20" required>
+            </div>
+            <div class="form__input-group">
+            <label for="pass">Пароль: </label>
+            <input  type="password" class="form__input" name="password" id="password" maxlength="20" required> 
+            </div>
+            <button class="form__button" type="submit">Начинаем!</button>
+            <div class ="wrong"  th:if = "${wrong} == '1000' ">
+                Такой аккаунт уже существует :( 
+            </div>
+        </form>
+        </div> 
+        
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>С возвращением!</h1>
+                    <p>Пожалуйста войдите используя персональные данные</p>
+                    <button class="ghost" id="signIn">Вход</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Привет!</h1>
+                    <p>Введите свои личные данные и начните путешествие с нами</p>
+                    <button class="ghost" id="signUp">Регистрация</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+      
+        var erro = [[${wrong}]];
+
+        if (erro == '1000') {
+            setTimeout(() => {
+                container.classList.add("right-panel-active");
+                wrong = 1001;
+            }, 2000);
+        }
+  
+    </script>
+
+
+    <script>
+
+
+        const signUpButton = document.getElementById('signUp');
+        
+        const signInButton = document.getElementById('signIn');
+
+        const container = document.getElementById('container');
+
+        signUpButton.addEventListener('click', () => {
+            container.classList.add("right-panel-active");
+        });
+
+        signInButton.addEventListener('click', () => {
+            container.classList.remove("right-panel-active");
+        });
+
+
+    </script>
+
+    </body>
+
+</html>
